@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:LightstripSyncClient"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Govee Flow: Search" SizeToContent="WidthAndHeight">
+        Title="Lightstrip Controller" SizeToContent="WidthAndHeight">
     <Window.Resources>
         <Color x:Key="TextColor">#FFAEAEAE</Color>
     </Window.Resources>

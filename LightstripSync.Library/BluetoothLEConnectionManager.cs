@@ -43,7 +43,7 @@ namespace LightstripSyncClient
         private void InitiateDeviceWatcher()
         {
             string[] requestedProperties = { "System.Devices.Aep.DeviceAddress", "System.Devices.Aep.IsConnected" };
-            var deviceWatcher = DeviceInformation.CreateWatcher(BluetoothLEDevice.GetDeviceSelectorFromPairingState(true), requestedProperties, DeviceInformationKind.AssociationEndpoint);
+            var deviceWatcher = DeviceInformation.CreateWatcher(BluetoothLEDevice.GetDeviceSelectorFromPairingState(false), requestedProperties, DeviceInformationKind.AssociationEndpoint);
             deviceWatcher.Added += DeviceWatcher_Added;
             deviceWatcher.Updated += DeviceWatcher_Updated;
             deviceWatcher.Removed += DeviceWatcher_Removed;
@@ -56,6 +56,7 @@ namespace LightstripSyncClient
             var device = await GetBluetoothDetails(deviceInformation);
             if (device != null)
             {
+                Console.WriteLine("Device found: " + device.Name);
                 Devices.Add(device);
             }
         }
@@ -70,7 +71,6 @@ namespace LightstripSyncClient
         private async Task<BluetoothLEDevice> GetBluetoothDetails(DeviceInformation deviceInformation)
         {
             var bluetoothLEDevice = await BluetoothLEDevice.FromIdAsync(deviceInformation.Id);
-
             var deviceName = bluetoothLEDevice.Name;
             //loop through the supported devices and see if the name matches
             for (int i = 0; i < SupportedDevices.Length; i++)
