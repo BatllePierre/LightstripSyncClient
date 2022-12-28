@@ -123,7 +123,7 @@ namespace LightstripSyncClient
             var bytes = StringToByteArray(keepAlive);
             keepAliveTimer = new Forms.Timer
             {
-                Interval = 2000
+                Interval = 1000
             };
             keepAliveTimer.Tick += (sender, e) => KeepAliveTick(sender, e, bytes);
             keepAliveTimer.Start();
@@ -184,7 +184,7 @@ namespace LightstripSyncClient
         }
         private byte[] CreateBluetoothColourDataBytes(string hexColor)
         {
-            var btString = isRGBIC ? "33051501" + hexColor + "0000000000ff7f0000000000" : "330502" + hexColor + "00000000000000000000000000";
+            var btString = isRGBIC ? "33051501" + hexColor + "0000000000ff7f0000000000" : "33050d" + hexColor + "000000000000000000000000c4";
             return CalculateCheckSum(StringToByteArray(btString));
         }
         private byte[] CreateBluetoothBrightnessDataBytes(string value)
@@ -197,7 +197,18 @@ namespace LightstripSyncClient
         {
             var writer = new DataWriter();
             writer.WriteBytes(byteArray);
-            _ = await lightChar.WriteValueAsync(writer.DetachBuffer());
+            try
+            {
+                _ = await lightChar.WriteValueAsync(writer.DetachBuffer());
+            }
+            catch (ObjectDisposedException ex)
+            {
+                Console.Write(ex.ObjectName);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
         }
 
         public static byte[] StringToByteArray(string hex)

@@ -39,7 +39,7 @@ namespace LightstripSyncClient
 
                         var newColor = FindDominantColour(bitmap);
 
-                        newColor = SmoothColor(oldColor, newColor, smoothSpeed);
+                        //newColor = SmoothColor(oldColor, newColor, smoothSpeed);
 
                         bluetoothLEConnectionManager.ChangeColor(newColor);
 
